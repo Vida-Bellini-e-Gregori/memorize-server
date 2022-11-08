@@ -1,0 +1,30 @@
+{
+  "name": "memo-server",
+  "version": "1.0.0",
+  "description": "Server to memorize flesh cards",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "nodemon index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vida-Bellini-e-Gregori/memorize-server.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Vida-Bellini-e-Gregori/memorize-server/issues"
+  },
+  "homepage": "https://github.com/Vida-Bellini-e-Gregori/memorize-server#readme",
+  "dependencies": {
+    "@types/jest": "^29.2.2",
+    "@types/node": "^18.11.9",
+    "express": "^4.18.2",
+    "jest": "^29.3.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.14",
+    "nodemon": "^2.0.20",
+    "typescript": "^4.8.4"
+  }
+}
