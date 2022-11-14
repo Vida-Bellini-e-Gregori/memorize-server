@@ -1,7 +1,7 @@
-import Card from "../../entities/Card";
+import { Card } from "../../entities/Card";
 
-export default interface ICardRepository {
-  createCard(): Promise<void>;
+export default interface ICardUseCases {
+  createCard(card: Card): Promise<void>;
   getAllCards(): Promise<Card[]>;
   getCardById(cardId: number): Promise<Card>;
   getAllCardsByDeckId(deckId: number): Promise<Card[]>;

@@ -1,23 +1,39 @@
-import Card from "../entities/Card";
 import ICardRepository from "./ICardRepository";
+import { Card } from "../../entities/Card";
+import { PrismaClient } from "@prisma/client";
 
 class CardRepository implements CardRepository {
-  createCard(): Promise<void> {
+  private prisma: PrismaClient = new PrismaClient();
+
+  async createCard(card: Card): Promise<void> {
+    await this.prisma.card.create({
+      data: {
+        answer: card.answer,
+        question: card.question,
+        deckId: card.deckId,
+        difficultyId: card.difficulty,
+      },
+    });
+  }
+  async getAllCards(): Promise<Card[]> {
+    const cards = await this.prisma.card.findMany() as Object;
+    return cards as Card[];
+  }
+  async getCardById(cardId: number): Promise<Card> {
+    const card = await this.prisma.card.findUnique({
+      where: {
+        id: cardId,
+      }
+    }) as Object;
+    return card as Card;
+  }
+  async getAllCardsByDeckId(deckId: number): Promise<Card[]> {
     throw new Error("Method not implemented.");
   }
-  getAllCards(): Promise<Card[]> {
+  async updateCard(card: Card): Promise<void> {
     throw new Error("Method not implemented.");
   }
-  getCardById(cardId: number): Promise<Card> {
-    throw new Error("Method not implemented.");
-  }
-  getAllCardsByDeckId(deckId: number): Promise<Card[]> {
-    throw new Error("Method not implemented.");
-  }
-  updateCard(card: Card): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
-  deleteCard(cardId: number): Promise<void> {
+  async deleteCard(cardId: number): Promise<void> {
     throw new Error("Method not implemented.");
   }
 }

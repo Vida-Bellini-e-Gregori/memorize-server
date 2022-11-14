@@ -1,5 +1,11 @@
-export default class Card {
-  parentDeckId: number;
+export enum CardDifficulty {
+  Easy = 1,
+  Medium = 2,
+  Hard = 3,
+}
+
+export class Card {
+  deckId: number;
 
   id: number;
 
@@ -7,10 +13,13 @@ export default class Card {
 
   answer: string;
 
-  constructor(parentDeckId: number, id: number, question: string, answer: string) {
-    this.parentDeckId = parentDeckId;
+  difficulty: number;
+
+  constructor(deckId: number, id: number, question: string, answer: string, difficulty: number) {
+    this.deckId = deckId;
     this.id = id;
     this.question = question;
     this.answer = answer;
+    this.difficulty = difficulty;
   }
 }
