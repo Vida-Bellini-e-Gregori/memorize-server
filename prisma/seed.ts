@@ -1,21 +1,29 @@
-import {PrismaClient} from "@prisma/client"
+import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient();
 
-import {cards} from "./cards";
+import { cards } from "./cards";
 
 async function main() {
-    for (const card of cards) {
-        await prisma.deck.create({
-            data: {
-                title: "Math",
+    await prisma.deck.create({
+        data: {
+            title: "main",
+        }
+    });
 
-                Card: {
-                    create: {
-                        question: card.question,
-                        answer: card.answer
-                    },
-                }
+    for(const i in [1,2,3]) {
+        await prisma.difficulty.create({
+            data: {}
+        });
+    }
+
+    for (const card of cards) {
+        await prisma.card.create({
+            data: {
+                deckId: 1,
+                difficultyId: card.difficulty,
+                question: card.question,
+                answer: card.answer,
             }
         });
     }
