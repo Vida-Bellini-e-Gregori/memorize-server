@@ -1,6 +1,6 @@
 import ICardRepository from "./ICardRepository";
-import { Card } from "../../entities/Card";
-import { PrismaClient } from "@prisma/client";
+import {Card} from "../../entities/Card";
+import {PrismaClient} from "@prisma/client";
 
 class CardRepository implements ICardRepository {
     private prisma: PrismaClient = new PrismaClient();
@@ -58,11 +58,12 @@ class CardRepository implements ICardRepository {
 
     async updateCardDifficulty(cardId: number, difficultyId: number): Promise<void> {
         await this.prisma.card.update({
-           where: {
-               id: cardId,
-           },
+            where: {
+                id: cardId,
+            },
             data: {
-               difficultyId: difficultyId
+                difficultyId: difficultyId,
+                lastSeenDate: new Date(),
             }
         });
     }
