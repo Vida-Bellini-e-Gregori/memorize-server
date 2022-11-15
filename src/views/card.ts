@@ -1,22 +1,10 @@
-import Express, {Response} from "express";
+import Express from "express";
 import { cardUseCases } from "../controllers/card/CardUseCases";
-import { BusinessError } from "../controllers/BusinessError";
+import { requestExceptionsWrapper } from "./utils";
 
-const router = Express.Router();
+export const cardRouter = Express.Router();
 
-const requestExceptionsWrapper = async (response: Response, callback: Function) => {
-    try {
-        await callback();
-    } catch (e) {
-        if (e instanceof BusinessError) {
-            response.status(e.status).json(e);
-            return;
-        }
-        response.status(500).json(e);
-    }
-};
-
-router.post("/cards", async (request, response) => {
+cardRouter.post("/cards", async (request, response) => {
     await requestExceptionsWrapper(response, async () => {
         const body = request.body;
         await cardUseCases.createCard(body);
@@ -24,14 +12,14 @@ router.post("/cards", async (request, response) => {
     });
 });
 
-router.get("/cards", async (request, response) => {
+cardRouter.get("/cards", async (request, response) => {
     await requestExceptionsWrapper(response, async () => {
         const cards = await cardUseCases.getAllCards();
         response.set(200).json(cards);
     })
 });
 
-router.get("/cards/:id", async (request, response) => {
+cardRouter.get("/cards/:id", async (request, response) => {
     await requestExceptionsWrapper(response, async () => {
         const { id } = request.params;
         const cards = await cardUseCases.getCardById(parseInt(id));
@@ -39,7 +27,7 @@ router.get("/cards/:id", async (request, response) => {
     });
 });
 
-router.put("/cards/:id", async (request, response) => {
+cardRouter.put("/cards/:id", async (request, response) => {
     await requestExceptionsWrapper(response, async () => {
         const { id } = request.params;
         const body = request.body;
@@ -48,7 +36,7 @@ router.put("/cards/:id", async (request, response) => {
     });
 });
 
-router.patch("/cards/:id/difficulty/:difficultyId", async (request, response) => {
+cardRouter.patch("/cards/:id/difficulty/:difficultyId", async (request, response) => {
     await requestExceptionsWrapper(response, async () => {
         const { id, difficultyId } = request.params;
         await cardUseCases.updateCardDifficulty(parseInt(id), parseInt(difficultyId));
@@ -56,12 +44,10 @@ router.patch("/cards/:id/difficulty/:difficultyId", async (request, response) =>
     });
 });
 
-router.delete("/cards/:id", async (request, response) => {
+cardRouter.delete("/cards/:id", async (request, response) => {
     await requestExceptionsWrapper(response, async () => {
         const { id } = request.params;
         await cardUseCases.deleteCard(parseInt(id));
         response.status(200).json();
     });
 });
-
-export default router;
