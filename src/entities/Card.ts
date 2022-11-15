@@ -1,9 +1,3 @@
-export enum CardDifficulty {
-  Easy = 1,
-  Medium = 2,
-  Hard = 3,
-}
-
 export class Card {
   deckId: number;
 

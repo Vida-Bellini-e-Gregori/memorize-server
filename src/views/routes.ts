@@ -1,5 +1,5 @@
 import Express, {Response} from "express";
-import { cardUseCase } from "../controllers/card/CardUseCases";
+import { cardUseCases } from "../controllers/card/CardUseCases";
 import { BusinessError } from "../controllers/BusinessError";
 
 const router = Express.Router();
@@ -16,9 +16,17 @@ const requestExceptionsWrapper = async (response: Response, callback: Function) 
     }
 };
 
+router.post("/cards", async (request, response) => {
+    await requestExceptionsWrapper(response, async () => {
+        const body = request.body;
+        await cardUseCases.createCard(body);
+        response.status(200).json();
+    });
+});
+
 router.get("/cards", async (request, response) => {
     await requestExceptionsWrapper(response, async () => {
-        const cards = await cardUseCase.getAllCards();
+        const cards = await cardUseCases.getAllCards();
         response.set(200).json(cards);
     })
 });
@@ -26,15 +34,32 @@ router.get("/cards", async (request, response) => {
 router.get("/cards/:id", async (request, response) => {
     await requestExceptionsWrapper(response, async () => {
         const { id } = request.params;
-        const cards = await cardUseCase.getCardById(parseInt(id));
+        const cards = await cardUseCases.getCardById(parseInt(id));
         response.set(200).json(cards);
     });
 });
 
-router.post("/cards", async (request, response) => {
+router.put("/cards/:id", async (request, response) => {
     await requestExceptionsWrapper(response, async () => {
+        const { id } = request.params;
         const body = request.body;
-        await cardUseCase.createCard(body);
+        await cardUseCases.updateCard(parseInt(id), body);
+        response.status(200).json();
+    });
+});
+
+router.patch("/cards/:id/difficulty/:difficultyId", async (request, response) => {
+    await requestExceptionsWrapper(response, async () => {
+        const { id, difficultyId } = request.params;
+        await cardUseCases.updateCardDifficulty(parseInt(id), parseInt(difficultyId));
+        response.status(200).json();
+    });
+});
+
+router.delete("/cards/:id", async (request, response) => {
+    await requestExceptionsWrapper(response, async () => {
+        const { id } = request.params;
+        await cardUseCases.deleteCard(parseInt(id));
         response.status(200).json();
     });
 });

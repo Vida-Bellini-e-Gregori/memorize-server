@@ -1,7 +1,8 @@
 import { Card } from "../../entities/Card";
 import ICardUseCases from "./ICardUseCases";
-import { cardRepository } from "../../models/card/cardRepository";
-import {submitCardToCreationRules} from "./BusinessRules/CreationRules";
+import {BusinessError} from "../BusinessError";
+import { cardRepository } from "../../models/card/CardRepository";
+import { difficultyRepository } from "../../models/difficulty/DifficultyRepository";
 
 const formatCardAttributes = (card: Card) => {
   card.deckId = Number(card.deckId);
@@ -9,27 +10,71 @@ const formatCardAttributes = (card: Card) => {
   card.answer = card.answer.trim();
 }
 
-class CardUseCase implements ICardUseCases {
+const submitCardToBusinessRules = (card: Card): void => {
+  if(!card.answer) throw new BusinessError("Resposta é obrigatória.");
+  if(!card.question) throw new BusinessError("Pergunta é obrigatória.");
+  if(!card.deckId) throw new BusinessError("Deck do card é obrigatório.");
+  if(!card.difficulty) throw new BusinessError("Dificuldade do card é obrigatória.");
+}
+
+class CardUseCases implements ICardUseCases {
   async createCard(card: Card): Promise<void> {
     formatCardAttributes(card);
-    submitCardToCreationRules(card);
+    submitCardToBusinessRules(card);
     return await cardRepository.createCard(card);
   }
+
   async getAllCards(): Promise<Card[]> {
     return await cardRepository.getAllCards();
   }
+
   async getCardById(cardId: number): Promise<Card> {
-    return await cardRepository.getCardById(cardId);
+    const card = await cardRepository.getCardById(cardId);
+    if(!card) {
+      throw new BusinessError("Card com id " + cardId + " não foi encontrado.", 404);
+    }
+    return card;
   }
+
   async getAllCardsByDeckId(deckId: number): Promise<Card[]> {
     return await cardRepository.getAllCardsByDeckId(deckId);
   }
-  async updateCard(card: Card): Promise<void> {
-    return await cardRepository.updateCard(card);
+
+  async updateCard(cardId: number, card: Card): Promise<void> {
+    formatCardAttributes(card);
+    submitCardToBusinessRules(card);
+
+    const cardExist = await this.getCardById(cardId);
+    if(!cardExist) {
+      throw new BusinessError("Card com id " + cardId + " não foi encontrado.", 404);
+    }
+
+    return await cardRepository.updateCard(cardId, card);
   }
+
+  async updateCardDifficulty(cardId: number, difficultyId: number): Promise<void> {
+    const cardExist = await this.getCardById(cardId);
+    if(!cardExist) {
+      throw new BusinessError("Card com id " + cardId + " não foi encontrado.", 400);
+    }
+
+    const difficulties = await difficultyRepository.getAllDifficulties();
+    const difficultiesIds = difficulties.map((difficulty) => difficulty.id);
+
+    if(!difficultiesIds.includes(difficultyId)) {
+      throw new BusinessError("Dificuldade " + difficultyId + " não é válida.", 400);
+    }
+
+    return await cardRepository.updateCardDifficulty(cardId, difficultyId);
+  }
+
   async deleteCard(cardId: number): Promise<void> {
+    const cardExist = await this.getCardById(cardId);
+    if(!cardExist) {
+      throw new BusinessError("Card com id " + cardId + " não foi encontrado.", 400);
+    }
     return await cardRepository.deleteCard(cardId);
   }
 }
 
-export const cardUseCase = new CardUseCase() as ICardUseCases;
+export const cardUseCases = new CardUseCases() as ICardUseCases;

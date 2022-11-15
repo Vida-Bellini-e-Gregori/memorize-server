@@ -1,8 +1,8 @@
 import ICardRepository from "./ICardRepository";
-import {Card, CardDifficulty} from "../../entities/Card";
-import {PrismaClient} from "@prisma/client";
+import { Card } from "../../entities/Card";
+import { PrismaClient } from "@prisma/client";
 
-class CardRepository implements CardRepository {
+class CardRepository implements ICardRepository {
     private prisma: PrismaClient = new PrismaClient();
 
     async createCard(card: Card): Promise<void> {
@@ -43,12 +43,36 @@ class CardRepository implements CardRepository {
         throw new Error("Method not implemented.");
     }
 
-    async updateCard(card: Card): Promise<void> {
-        throw new Error("Method not implemented.");
+    async updateCard(cardId: number, card: Card): Promise<void> {
+        await this.prisma.card.update({
+            where: {
+                id: cardId
+            },
+            data: {
+                question: card.question,
+                answer: card.answer,
+                deckId: card.deckId,
+            },
+        });
+    }
+
+    async updateCardDifficulty(cardId: number, difficultyId: number): Promise<void> {
+        await this.prisma.card.update({
+           where: {
+               id: cardId,
+           },
+            data: {
+               difficultyId: difficultyId
+            }
+        });
     }
 
     async deleteCard(cardId: number): Promise<void> {
-        throw new Error("Method not implemented.");
+        this.prisma.card.delete({
+            where: {
+                id: cardId,
+            }
+        })
     }
 }
 
