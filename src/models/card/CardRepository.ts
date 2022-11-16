@@ -38,10 +38,10 @@ class CardRepository implements ICardRepository {
             const difficulty = difficulties.find((difficulty) => difficulty.id === card.difficulty);
             if(!difficulty) return;
 
-            const nowInMilliseconds = new Date().getTime();
-            const cardDateInMilliseconds = new Date(card.lastSeenDate).getTime();
+            const currentDateInMilliseconds = new Date().getTime();
+            const cardLastSeenDateInMilliseconds = new Date(card.lastSeenDate).getTime();
 
-            const timePassedSizeTheLastSeen = nowInMilliseconds - cardDateInMilliseconds;
+            const timePassedSizeTheLastSeen = currentDateInMilliseconds - cardLastSeenDateInMilliseconds;
             return timePassedSizeTheLastSeen >= difficulty.interval;
         })
     }
