@@ -39,10 +39,8 @@ describe("Card use cases", () => {
 
     it("Should update a card", async () => {
         const card = {
-            deckId: 1,
             question: "This is a real updated question?",
             answer: "This is not a updated real question",
-            difficulty: 1,
         };
 
         const response = await fetch(domain + "/cards/1", getDefaultFetchConfiguration("PUT", card));
