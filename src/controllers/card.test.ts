@@ -1,4 +1,5 @@
 import fetch from "cross-fetch"
+import {Card} from "../entities/Card";
 
 const getDefaultFetchConfiguration = (method: string, body?: any) => {
     return {
@@ -48,8 +49,15 @@ describe("Card use cases", () => {
         expect(response.status).toBe(200);
     });
 
+    const getLastCard = async () => {
+        const getCardsResponse = await fetch(domain + "/cards");
+        const cards: Card[] = await getCardsResponse.json();
+        return cards[cards.length - 1];
+    }
+
     it("Should delete a card", async () => {
-        const response = await fetch(domain + "/cards/10", getDefaultFetchConfiguration("DELETE"));
+        const card = await getLastCard();
+        const response = await fetch(domain + "/cards/" + card.id, getDefaultFetchConfiguration("DELETE"));
         expect(response.status).toBe(200);
     });
 

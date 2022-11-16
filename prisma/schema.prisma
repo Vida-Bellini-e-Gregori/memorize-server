@@ -17,8 +17,9 @@ model Deck {
 }
 
 model Difficulty {
-  id   Int    @id @default(autoincrement())
-  Card Card[]
+  id    Int    @id @default(autoincrement())
+  label String
+  Card  Card[]
 }
 
 model Card {

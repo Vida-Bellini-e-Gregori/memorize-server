@@ -11,9 +11,17 @@ async function main() {
         }
     });
 
-    for(const i in [1,2,3]) {
+    const difficulties = [
+        { label: "FÁCIL" },
+        { label: "MÉDIO" },
+        { label: "DIFÍCIL" },
+    ];
+
+    for(const difficulty of difficulties) {
         await prisma.difficulty.create({
-            data: {}
+            data: {
+                label: difficulty.label
+            },
         });
     }
 
