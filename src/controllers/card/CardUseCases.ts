@@ -3,6 +3,8 @@ import ICardUseCases from "./ICardUseCases";
 import {BusinessError} from "../BusinessError";
 import { cardRepository } from "../../models/card/CardRepository";
 import { difficultyRepository } from "../../models/difficulty/DifficultyRepository";
+import {submitCreationRules} from "./BusinessRules/creationRules";
+import {submitCardToUpdatingRules} from "./BusinessRules/updateRules";
 
 const formatCardAttributes = (card: Card) => {
   card.deckId = Number(card.deckId);
@@ -10,17 +12,10 @@ const formatCardAttributes = (card: Card) => {
   card.answer = card.answer.trim();
 }
 
-const submitCardToBusinessRules = (card: Card): void => {
-  if(!card.answer) throw new BusinessError("Resposta é obrigatória.");
-  if(!card.question) throw new BusinessError("Pergunta é obrigatória.");
-  if(!card.deckId) throw new BusinessError("Deck do card é obrigatório.");
-  if(!card.difficulty) throw new BusinessError("Dificuldade do card é obrigatória.");
-}
-
 class CardUseCases implements ICardUseCases {
   async createCard(card: Card): Promise<void> {
     formatCardAttributes(card);
-    submitCardToBusinessRules(card);
+    submitCreationRules(card);
     return await cardRepository.createCard(card);
   }
 
@@ -42,7 +37,7 @@ class CardUseCases implements ICardUseCases {
 
   async updateCard(cardId: number, card: Card): Promise<void> {
     formatCardAttributes(card);
-    submitCardToBusinessRules(card);
+    submitCardToUpdatingRules(card);
 
     const cardExist = await this.getCardById(cardId);
     if(!cardExist) {
