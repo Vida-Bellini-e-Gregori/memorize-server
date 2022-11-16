@@ -51,7 +51,6 @@ class CardRepository implements ICardRepository {
             data: {
                 question: card.question,
                 answer: card.answer,
-                deckId: card.deckId,
             },
         });
     }
