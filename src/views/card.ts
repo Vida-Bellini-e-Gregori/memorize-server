@@ -14,10 +14,18 @@ cardRouter.post("/cards", async (request, response) => {
 
 cardRouter.get("/cards", async (request, response) => {
     await requestExceptionsWrapper(response, async () => {
+        const cards = await cardUseCases.getAllCards();
+        response.set(200).json(cards);
+    })
+});
+
+cardRouter.get("/cards/available", async (request, response) => {
+    await requestExceptionsWrapper(response, async () => {
         const cards = await cardUseCases.getAvailableCards();
         response.set(200).json(cards);
     })
 });
+
 
 cardRouter.get("/cards/:id", async (request, response) => {
     await requestExceptionsWrapper(response, async () => {

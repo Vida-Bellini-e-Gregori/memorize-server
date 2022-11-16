@@ -14,8 +14,13 @@ const getDefaultFetchConfiguration = (method: string, body?: any) => {
 const domain = "http://localhost:8000";
 
 describe("Card use cases", () => {
-    it("Should return an array of cards", async () => {
+    it("Should return an array of all cards", async () => {
         const response = await fetch(domain + "/cards", getDefaultFetchConfiguration("GET"));
+        expect(response.status).toBe(200);
+    });
+
+    it("Should return an array of available cards", async () => {
+        const response = await fetch(domain + "/cards/available", getDefaultFetchConfiguration("GET"));
         expect(response.status).toBe(200);
     });
 

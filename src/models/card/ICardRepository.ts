@@ -2,6 +2,7 @@ import { Card } from "../../entities/Card";
 
 export default interface ICardRepository {
   createCard(card: Card): Promise<void>;
+  getAllCards(): Promise<Card[]>;
   getAvailableCards(): Promise<Card[]>;
   getCardById(cardId: number): Promise<Card>;
   getAvailableCardsByDeckId(deckId: number): Promise<Card[]>;

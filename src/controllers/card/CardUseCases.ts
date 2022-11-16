@@ -19,6 +19,10 @@ class CardUseCases implements ICardUseCases {
     return await cardRepository.createCard(card);
   }
 
+  async getAllCards(): Promise<Card[]> {
+    return await cardRepository.getAllCards();
+  }
+
   async getAvailableCards(): Promise<Card[]> {
     return await cardRepository.getAvailableCards();
   }
