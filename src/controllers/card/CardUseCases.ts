@@ -31,7 +31,7 @@ class CardUseCases implements ICardUseCases {
   async getCardById(cardId: number): Promise<Card> {
     const card = await cardRepository.getCardById(cardId);
     if(!card) {
-      throw new BusinessError("Card com id " + cardId + " não foi encontrado.", 404);
+      throw new BusinessError("Card com id " + cardId + " não foi encontrado.", 400);
     }
     return card;
   }
@@ -46,7 +46,7 @@ class CardUseCases implements ICardUseCases {
 
     const cardExist = await this.getCardById(cardId);
     if(!cardExist) {
-      throw new BusinessError("Card com id " + cardId + " não foi encontrado.", 404);
+      throw new BusinessError("Card com id " + cardId + " não foi encontrado.", 400);
     }
 
     return await cardRepository.updateCard(cardId, card);

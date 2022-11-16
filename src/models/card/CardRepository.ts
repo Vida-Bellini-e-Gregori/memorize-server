@@ -69,7 +69,7 @@ class CardRepository implements ICardRepository {
     }
 
     async deleteCard(cardId: number): Promise<void> {
-        this.prisma.card.delete({
+        await this.prisma.card.delete({
             where: {
                 id: cardId,
             }
