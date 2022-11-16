@@ -2,7 +2,6 @@ import ICardRepository from "./ICardRepository";
 import {Card} from "../../entities/Card";
 import {PrismaClient} from "@prisma/client";
 import {difficultyRepository} from "../difficulty/DifficultyRepository";
-import {equal} from "assert";
 
 class CardRepository implements ICardRepository {
     private prisma: PrismaClient = new PrismaClient();
