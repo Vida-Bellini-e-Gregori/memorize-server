@@ -12,9 +12,9 @@ async function main() {
     });
 
     const difficulties = [
-        { label: "FÁCIL", interval: 60000 },
+        { label: "FÁCIL", interval: 180000 },
         { label: "MÉDIO", interval: 120000 },
-        { label: "DIFÍCIL", interval: 180000 },
+        { label: "DIFÍCIL", interval: 60000 },
     ];
 
     for(const difficulty of difficulties) {
