@@ -19,8 +19,8 @@ class CardUseCases implements ICardUseCases {
     return await cardRepository.createCard(card);
   }
 
-  async getAllCards(): Promise<Card[]> {
-    return await cardRepository.getAllCards();
+  async getAvailableCards(): Promise<Card[]> {
+    return await cardRepository.getAvailableCards();
   }
 
   async getCardById(cardId: number): Promise<Card> {
@@ -31,8 +31,8 @@ class CardUseCases implements ICardUseCases {
     return card;
   }
 
-  async getAllCardsByDeckId(deckId: number): Promise<Card[]> {
-    return await cardRepository.getAllCardsByDeckId(deckId);
+  async getAvailableCardsByDeckId(deckId: number): Promise<Card[]> {
+    return await cardRepository.getAvailableCardsByDeckId(deckId);
   }
 
   async updateCard(cardId: number, card: Card): Promise<void> {

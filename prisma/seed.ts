@@ -12,15 +12,16 @@ async function main() {
     });
 
     const difficulties = [
-        { label: "FÁCIL" },
-        { label: "MÉDIO" },
-        { label: "DIFÍCIL" },
+        { label: "FÁCIL", interval: 60000 },
+        { label: "MÉDIO", interval: 120000 },
+        { label: "DIFÍCIL", interval: 180000 },
     ];
 
     for(const difficulty of difficulties) {
         await prisma.difficulty.create({
             data: {
-                label: difficulty.label
+                label: difficulty.label,
+                interval: difficulty.interval,
             },
         });
     }

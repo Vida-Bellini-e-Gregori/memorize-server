@@ -1,5 +1,5 @@
 import fetch from "cross-fetch"
-import {Card} from "../entities/Card";
+import {Card} from "../../entities/Card";
 
 const getDefaultFetchConfiguration = (method: string, body?: any) => {
     return {
@@ -20,7 +20,7 @@ describe("Card use cases", () => {
     });
 
     it("Should return a single card", async () => {
-        const response = await fetch(domain + "/cards/1", getDefaultFetchConfiguration("GET"));
+        const response = await fetch(domain + "/cards/3", getDefaultFetchConfiguration("GET"));
 
         expect(response.status).toBe(200);
     });
@@ -43,7 +43,7 @@ describe("Card use cases", () => {
             answer: "This is not a updated real question",
         };
 
-        const response = await fetch(domain + "/cards/1", getDefaultFetchConfiguration("PUT", card));
+        const response = await fetch(domain + "/cards/3", getDefaultFetchConfiguration("PUT", card));
         expect(response.status).toBe(200);
     });
 
@@ -55,12 +55,13 @@ describe("Card use cases", () => {
 
     it("Should delete a card", async () => {
         const card = await getLastCard();
+        if(!card) return;
         const response = await fetch(domain + "/cards/" + card.id, getDefaultFetchConfiguration("DELETE"));
         expect(response.status).toBe(200);
     });
 
     it("Should set a card difficulty to 3", async () => {
-        const response = await fetch(domain + "/cards/1/difficulty/3", getDefaultFetchConfiguration("PATCH"));
+        const response = await fetch(domain + "/cards/5/difficulty/3", getDefaultFetchConfiguration("PATCH"));
         expect(response.status).toBe(200);
     });
 })

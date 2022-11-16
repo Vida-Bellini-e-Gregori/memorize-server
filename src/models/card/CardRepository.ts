@@ -1,6 +1,8 @@
 import ICardRepository from "./ICardRepository";
 import {Card} from "../../entities/Card";
 import {PrismaClient} from "@prisma/client";
+import {difficultyRepository} from "../difficulty/DifficultyRepository";
+import {equal} from "assert";
 
 class CardRepository implements ICardRepository {
     private prisma: PrismaClient = new PrismaClient();
@@ -16,7 +18,7 @@ class CardRepository implements ICardRepository {
         });
     }
 
-    async getAllCards(): Promise<Card[]> {
+    async getAllCards() {
         const cards = await this.prisma.card.findMany({
             orderBy: [
                 {
@@ -25,9 +27,25 @@ class CardRepository implements ICardRepository {
                 {
                     lastSeenDate: 'asc'
                 },
-            ]
+            ],
         }) as Object;
         return cards as Card[];
+    }
+
+    async getAvailableCards(): Promise<Card[]> {
+        const difficulties = await difficultyRepository.getAllDifficulties();
+        const cards = await this.getAllCards();
+
+        return cards.filter((card) => {
+            const difficulty = difficulties.find((difficulty) => difficulty.id === card.difficulty);
+            if(!difficulty) return;
+
+            const nowInMilliseconds = new Date().getTime();
+            const cardDateInMilliseconds = new Date(card.lastSeenDate).getTime();
+
+            const timePassedSizeTheLastSeen = nowInMilliseconds - cardDateInMilliseconds;
+            return timePassedSizeTheLastSeen >= difficulty.interval;
+        })
     }
 
     async getCardById(cardId: number): Promise<Card> {
@@ -39,7 +57,7 @@ class CardRepository implements ICardRepository {
         return card as Card;
     }
 
-    async getAllCardsByDeckId(deckId: number): Promise<Card[]> {
+    async getAvailableCardsByDeckId(deckId: number): Promise<Card[]> {
         throw new Error("Method not implemented.");
     }
 

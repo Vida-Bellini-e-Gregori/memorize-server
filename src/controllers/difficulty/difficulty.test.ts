@@ -10,9 +10,9 @@ describe("Difficulty endpoints validation", () => {
         expect(response.status).toBe(200);
         expect(responseBody).toEqual(
             [
-                { id: 1, label: 'FÁCIL' },
-                { id: 2, label: 'MÉDIO' },
-                { id: 3, label: 'DIFÍCIL' }
+                { id: 1, label: "FÁCIL", interval: 60000 },
+                { id: 2, label: "MÉDIO", interval: 120000 },
+                { id: 3, label: "DIFÍCIL", interval: 180000 },
             ])
     });
 });

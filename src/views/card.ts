@@ -14,7 +14,7 @@ cardRouter.post("/cards", async (request, response) => {
 
 cardRouter.get("/cards", async (request, response) => {
     await requestExceptionsWrapper(response, async () => {
-        const cards = await cardUseCases.getAllCards();
+        const cards = await cardUseCases.getAvailableCards();
         response.set(200).json(cards);
     })
 });
