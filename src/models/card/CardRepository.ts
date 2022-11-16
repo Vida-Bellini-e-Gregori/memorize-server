@@ -13,7 +13,6 @@ class CardRepository implements ICardRepository {
                 answer: card.answer,
                 question: card.question,
                 deckId: card.deckId,
-                difficulty: card.difficulty,
             },
         });
     }

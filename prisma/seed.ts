@@ -30,7 +30,6 @@ async function main() {
         await prisma.card.create({
             data: {
                 deckId: 1,
-                difficulty: card.difficulty,
                 question: card.question,
                 answer: card.answer,
             }

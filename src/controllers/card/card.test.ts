@@ -30,7 +30,6 @@ describe("Card use cases", () => {
             deckId: 1,
             question: "This is a real question?",
             answer: "This is not a real question",
-            difficulty: 1,
         };
 
         const response = await fetch(domain + "/cards", getDefaultFetchConfiguration("POST", card));

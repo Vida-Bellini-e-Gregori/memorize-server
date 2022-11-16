@@ -32,6 +32,6 @@ model Card {
   deckId Int
   deck   Deck @relation(fields: [deckId], references: [id])
 
-  difficulty       Int
+  difficulty       Int        @default(1)
   difficultyEntity Difficulty @relation(fields: [difficulty], references: [id])
 }
