@@ -21,7 +21,7 @@ async function main() {
         await prisma.card.create({
             data: {
                 deckId: 1,
-                difficultyId: card.difficulty,
+                difficulty: card.difficulty,
                 question: card.question,
                 answer: card.answer,
             }

@@ -22,14 +22,14 @@ model Difficulty {
 }
 
 model Card {
-  id           Int       @id @default(autoincrement())
-  question     String    @db.Text
-  answer       String    @db.Text
-  lastSeenDate DateTime  @default(now())
+  id           Int      @id @default(autoincrement())
+  question     String   @db.Text
+  answer       String   @db.Text
+  lastSeenDate DateTime @default(now())
 
   deckId Int
   deck   Deck @relation(fields: [deckId], references: [id])
 
-  difficultyId Int
-  difficulty   Difficulty @relation(fields: [difficultyId], references: [id])
+  difficulty       Int
+  difficultyEntity Difficulty @relation(fields: [difficulty], references: [id])
 }

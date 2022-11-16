@@ -11,7 +11,7 @@ class CardRepository implements ICardRepository {
                 answer: card.answer,
                 question: card.question,
                 deckId: card.deckId,
-                difficultyId: card.difficulty,
+                difficulty: card.difficulty,
             },
         });
     }
@@ -20,7 +20,7 @@ class CardRepository implements ICardRepository {
         const cards = await this.prisma.card.findMany({
             orderBy: [
                 {
-                    difficultyId: 'desc'
+                    difficulty: 'desc'
                 },
                 {
                     lastSeenDate: 'asc'
@@ -62,7 +62,7 @@ class CardRepository implements ICardRepository {
                 id: cardId,
             },
             data: {
-                difficultyId: difficultyId,
+                difficulty: difficultyId,
                 lastSeenDate: new Date(),
             }
         });
