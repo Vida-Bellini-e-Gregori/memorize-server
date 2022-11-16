@@ -36,7 +36,7 @@ class CardRepository implements ICardRepository {
 
         return cards.filter((card) => {
             const difficulty = difficulties.find((difficulty) => difficulty.id === card.difficulty);
-            if(!difficulty) throw new Error(`Card de id ${card.id} contém uma difficuldade inválida.`);
+            if(!difficulty) throw new Error(`Card de id ${card.id} contém uma dificuldade inválida.`);
 
             const currentDateInMilliseconds = new Date().getTime();
             const cardLastSeenDateInMilliseconds = new Date(card.lastSeenDate).getTime();
