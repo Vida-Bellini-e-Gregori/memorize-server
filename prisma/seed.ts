@@ -5,8 +5,17 @@ const prisma = new PrismaClient();
 import { cards } from "./cards";
 
 async function main() {
+    await prisma.user.create({
+      data: {
+        id: 1,
+        name: 'Grég de teste',
+        email: 'gregsabel@gmail.com',        
+      }
+    })
+
     await prisma.deck.create({
         data: {
+            userId: 1,
             title: "main",
         }
     });
