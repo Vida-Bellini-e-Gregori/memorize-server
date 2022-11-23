@@ -8,6 +8,7 @@ async function main() {
     await prisma.user.create({
       data: {
         id: 1,
+        googleId: '1',
         name: 'Grég de teste',
         email: 'gregsabel@gmail.com',        
       }

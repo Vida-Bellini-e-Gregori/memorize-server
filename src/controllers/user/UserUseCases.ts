@@ -17,6 +17,9 @@ class UserUseCases implements IUserdUseCases {
     submitCreationRules(user)
     return await userRepository.createUser(user);
   }
+  async getUserByGoogleId(id: string): Promise<User> {
+    return await userRepository.getUserByGoogleId(id);
+  }  
 }
 
 export const userUseCases = new UserUseCases() as IUserUseCases;
